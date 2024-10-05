@@ -6,6 +6,7 @@ let secondNumber = '';
 let resultDisplayed = false;
 let lastOperator = '';
 let lastSecondNumber = '';
+let storedAnswer = '';
 
 // Add event listeners to number buttons
 document.getElementById('one').addEventListener('click', () => appendNumber(1));
@@ -25,14 +26,121 @@ document.getElementById('subtraction').addEventListener('click', () => setOperat
 document.getElementById('multiply').addEventListener('click', () => setOperator('*'));
 document.getElementById('divide').addEventListener('click', () => setOperator('/'));
 
+// Add event listeners to other buttons
+document.getElementById('percentage').addEventListener('click', () => calculatePercentage());
+document.getElementById('factorial').addEventListener('click', () => calculateFactorial());
+document.getElementById('power').addEventListener('click', () => setOperator('**'));
+document.getElementById('change').addEventListener('click', () => changeSign());
+document.getElementById('square').addEventListener('click', () => calculateSquareRoot());
+document.getElementById('pi').addEventListener('click', () => appendNumber(Math.PI));
+document.getElementById('decimal').addEventListener('click', () => appendNumber('.'));
+
 // Add event listener to equal button to perform calculation
 document.getElementById('equal').addEventListener('click', calculateResult);
 
-// Add event listener to clear button
+// Add event listener to clear and backspace button
 document.getElementById('clear').addEventListener('click', clearResult);
+document.getElementById('backspace').addEventListener('click', backspace);
+
+// Add event listener to answer button to store the result for later use
+document.getElementById('answer').addEventListener('click', storeAnswer);
+
+// Function to calculate percentage of the current input
+function calculatePercentage() {
+    if (currentInput === '') return;
+
+    // Convert the current input to a percentage
+    let percentageValue = parseFloat(currentInput) / 100;
+    resultDisplay.value = percentageValue; // Display the percentage value
+
+    // Store the percentage value in the current input for further calculations
+    currentInput = percentageValue.toString();
+
+    if (operator) {
+        resultDisplay.value = firstNumber + ' ' + operator + ' ' + currentInput;
+    } else {
+        resultDisplay.value = currentInput;
+    }
+}
+
+function calculateFactorial() {
+    if (currentInput === '') return;
+
+    // Calculate the factorial of the current input
+    let factorialValue = 1;
+    for (let i = 1; i <= parseFloat(currentInput); i++) {
+        factorialValue *= i;
+    }
+    resultDisplay.value = factorialValue;
+
+    // Store the factorial value in the current input for further calculations
+    currentInput = factorialValue.toString();
+
+    if (operator) {
+        resultDisplay.value = firstNumber + ' ' + operator + ' ' + currentInput;
+    } else {
+        resultDisplay.value = currentInput;
+    }
+}
+
+function changeSign() {
+    if (currentInput === '') return;
+
+    // Change the sign of the current input
+    currentInput = parseFloat(currentInput) * -1;
+    resultDisplay.value = currentInput;
+
+    if (operator) {
+        resultDisplay.value = firstNumber + ' ' + operator + ' ' + currentInput;
+    } else {
+        resultDisplay.value = currentInput;
+    }
+
+    // Store the changed sign in the current input for further calculations
+    currentInput = currentInput.toString();
+}
+
+function calculateSquareRoot() {
+    if (currentInput === '') return;
+
+    // Calculate the square root of the current input
+    let squareRootValue = Math.sqrt(parseFloat(currentInput));
+    resultDisplay.value = squareRootValue;
+
+    // Store the square root value in the current input for further calculations
+    currentInput = squareRootValue.toString();
+}
+
+function backspace() {
+    if (resultDisplayed) {
+        resultDisplay.value = '';
+        resultDisplayed = false;
+    } else if (currentInput !== '') {
+        currentInput = currentInput.slice(0, -1);
+        resultDisplay.value = currentInput;
+    }
+}
+
+function storeAnswer() {
+    if (storedAnswer === '') return;
+
+    currentInput = storedAnswer.toString(); // Set the stored answer as the current input
+    resultDisplay.value = currentInput; // Update the display
+
+    if (operator) {
+        resultDisplay.value = firstNumber + ' ' + operator + ' ' + currentInput; // Show the answer as part of the operation
+    } else {
+        resultDisplay.value = currentInput; // Otherwise, display the answer
+    }
+}
 
 // Function to append a number to the current input
 function appendNumber(number) {
+    // Prevent multiple decimal points
+    if (number === '.' && currentInput.includes('.')) {
+        return;
+    }
+
     if (resultDisplayed) {
         currentInput = ''; // Start new input after result is displayed
         resultDisplayed = false;
@@ -96,12 +204,16 @@ function calculateResult() {
             }
             result = parseFloat(firstNumber) / parseFloat(secondNumber);
             break;
+        case '**':
+            result = parseFloat(firstNumber) ** parseFloat(secondNumber);
+            break;
         default:
             return;
     }
 
     resultDisplay.value = result; // Show the result in the input field
     firstNumber = result; // Store the result as the first number for further operations
+    storedAnswer = result;
     currentInput = ''; // Reset input for further numbers
     resultDisplayed = true; // Result has been displayed
     operator = ''; // Reset operator to continue operations
