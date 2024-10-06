@@ -1,4 +1,5 @@
 const resultDisplay = document.getElementById('result');
+const calculationDisplay = document.getElementById('calculation');
 let currentInput = ''; 
 let operator = ''; 
 let firstNumber = ''; 
@@ -49,6 +50,8 @@ document.getElementById('answer').addEventListener('click', storeAnswer);
 function calculatePercentage() {
     if (currentInput === '') return;
 
+    let originalInput = currentInput;
+
     // Convert the current input to a percentage
     let percentageValue = parseFloat(currentInput) / 100;
     resultDisplay.value = percentageValue; // Display the percentage value
@@ -57,14 +60,16 @@ function calculatePercentage() {
     currentInput = percentageValue.toString();
 
     if (operator) {
-        resultDisplay.value = firstNumber + ' ' + operator + ' ' + currentInput;
+        calculationDisplay.value = firstNumber + ' ' + operator + ' ' + originalInput + '%';
     } else {
-        resultDisplay.value = currentInput;
+        calculationDisplay.value = originalInput + '%';
     }
 }
 
 function calculateFactorial() {
     if (currentInput === '') return;
+
+    let originalInput = currentInput;
 
     // Calculate the factorial of the current input
     let factorialValue = 1;
@@ -77,9 +82,9 @@ function calculateFactorial() {
     currentInput = factorialValue.toString();
 
     if (operator) {
-        resultDisplay.value = firstNumber + ' ' + operator + ' ' + currentInput;
+        calculationDisplay.value = firstNumber + ' ' + operator + ' ' + originalInput + '!';
     } else {
-        resultDisplay.value = currentInput;
+        calculationDisplay.value = originalInput + '!';
     }
 }
 
@@ -91,9 +96,9 @@ function changeSign() {
     resultDisplay.value = currentInput;
 
     if (operator) {
-        resultDisplay.value = firstNumber + ' ' + operator + ' ' + currentInput;
+        calculationDisplay.value = firstNumber + ' ' + operator + ' ' + currentInput;
     } else {
-        resultDisplay.value = currentInput;
+        calculationDisplay.value = currentInput;
     }
 
     // Store the changed sign in the current input for further calculations
@@ -103,12 +108,15 @@ function changeSign() {
 function calculateSquareRoot() {
     if (currentInput === '') return;
 
+    let originalInput = currentInput;
+
     // Calculate the square root of the current input
     let squareRootValue = Math.sqrt(parseFloat(currentInput));
     resultDisplay.value = squareRootValue;
 
     // Store the square root value in the current input for further calculations
     currentInput = squareRootValue.toString();
+    calculationDisplay.value = '√' + '(' + originalInput + ')';
 }
 
 function backspace() {
@@ -117,7 +125,7 @@ function backspace() {
         resultDisplayed = false;
     } else if (currentInput !== '') {
         currentInput = currentInput.slice(0, -1);
-        resultDisplay.value = currentInput;
+        calculationDisplay.value = firstNumber + ' ' + operator + ' ' + currentInput;
     }
 }
 
@@ -128,9 +136,9 @@ function storeAnswer() {
     resultDisplay.value = currentInput; // Update the display
 
     if (operator) {
-        resultDisplay.value = firstNumber + ' ' + operator + ' ' + currentInput; // Show the answer as part of the operation
+        calculationDisplay.value = firstNumber + ' ' + operator + ' ' + currentInput; // Show the answer as part of the operation
     } else {
-        resultDisplay.value = currentInput; // Otherwise, display the answer
+        calculationDisplay.value = currentInput; // Otherwise, display the answer
     }
 }
 
@@ -149,9 +157,9 @@ function appendNumber(number) {
     currentInput += number;
     if (operator) {
         // If an operator is selected, display first number + operator + second number
-        resultDisplay.value = firstNumber + ' ' + operator + ' ' + currentInput;
+        calculationDisplay.value = firstNumber + ' ' + operator + ' ' + currentInput;
     } else {
-        resultDisplay.value = currentInput; // Otherwise, just display the current number
+        calculationDisplay.value = currentInput; // Otherwise, just display the current number
     }
 }
 
@@ -170,7 +178,7 @@ function setOperator(op) {
     operator = op;
     lastOperator = operator; // Store last operator for repeated calculations
     currentInput = ''; // Reset input for the second number
-    resultDisplay.value = firstNumber + ' ' + operator;
+    calculationDisplay.value = firstNumber + ' ' + operator;
 }
 
 // Function to perform the calculation and display the result
@@ -212,6 +220,7 @@ function calculateResult() {
     }
 
     resultDisplay.value = result; // Show the result in the input field
+    calculationDisplay.value = firstNumber + ' ' + operator + ' ' + secondNumber; // Show the full calculation
     firstNumber = result; // Store the result as the first number for further operations
     storedAnswer = result;
     currentInput = ''; // Reset input for further numbers
@@ -237,4 +246,5 @@ function clearResult() {
     lastOperator = '';
     resultDisplayed = false;
     resultDisplay.value = '';
+    calculationDisplay.value = '';
 }
