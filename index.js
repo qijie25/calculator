@@ -10,16 +10,16 @@ let lastSecondNumber = '';
 let storedAnswer = '';
 
 // Add event listeners to number buttons
-document.getElementById('one').addEventListener('click', () => appendNumber(1));
-document.getElementById('two').addEventListener('click', () => appendNumber(2));
-document.getElementById('three').addEventListener('click', () => appendNumber(3));
-document.getElementById('four').addEventListener('click', () => appendNumber(4));
-document.getElementById('five').addEventListener('click', () => appendNumber(5));
-document.getElementById('six').addEventListener('click', () => appendNumber(6));
-document.getElementById('seven').addEventListener('click', () => appendNumber(7));
-document.getElementById('eight').addEventListener('click', () => appendNumber(8));
-document.getElementById('nine').addEventListener('click', () => appendNumber(9));
-document.getElementById('zero').addEventListener('click', () => appendNumber(0));
+document.getElementById('btn-1').addEventListener('click', () => appendNumber(1));
+document.getElementById('btn-2').addEventListener('click', () => appendNumber(2));
+document.getElementById('btn-3').addEventListener('click', () => appendNumber(3));
+document.getElementById('btn-4').addEventListener('click', () => appendNumber(4));
+document.getElementById('btn-5').addEventListener('click', () => appendNumber(5));
+document.getElementById('btn-6').addEventListener('click', () => appendNumber(6));
+document.getElementById('btn-7').addEventListener('click', () => appendNumber(7));
+document.getElementById('btn-8').addEventListener('click', () => appendNumber(8));
+document.getElementById('btn-9').addEventListener('click', () => appendNumber(9));
+document.getElementById('btn-0').addEventListener('click', () => appendNumber(0));
 
 // Add event listeners to operator buttons
 document.getElementById('addition').addEventListener('click', () => setOperator('+'));
@@ -30,7 +30,7 @@ document.getElementById('divide').addEventListener('click', () => setOperator('/
 // Add event listeners to other buttons
 document.getElementById('percentage').addEventListener('click', () => calculatePercentage());
 document.getElementById('factorial').addEventListener('click', () => calculateFactorial());
-document.getElementById('power').addEventListener('click', () => setOperator('**'));
+document.getElementById('power').addEventListener('click', () => setOperator('^'));
 document.getElementById('change').addEventListener('click', () => changeSign());
 document.getElementById('square').addEventListener('click', () => calculateSquareRoot());
 document.getElementById('pi').addEventListener('click', () => appendNumber(Math.PI));
@@ -212,7 +212,7 @@ function calculateResult() {
             }
             result = parseFloat(firstNumber) / parseFloat(secondNumber);
             break;
-        case '**':
+        case '^':
             result = parseFloat(firstNumber) ** parseFloat(secondNumber);
             break;
         default:
@@ -248,3 +248,111 @@ function clearResult() {
     resultDisplay.value = '';
     calculationDisplay.value = '';
 }
+
+document.addEventListener('keypress', function(event) {
+    console.log(event);
+    if (event.key === '0') {
+        calculationDisplay.value = event.key;
+        appendNumber(event.key);
+    }
+
+    if (event.key === '1') {
+        calculationDisplay.value = event.key;
+        appendNumber(event.key);
+    }
+
+    if (event.key === '2') {
+        calculationDisplay.value = event.key;
+        appendNumber(event.key);
+    }
+
+    if (event.key === '3') {
+        calculationDisplay.value = event.key;
+        appendNumber(event.key);
+    }
+
+    if (event.key === '4') {
+        calculationDisplay.value = event.key;
+        appendNumber(event.key);
+    }
+
+    if (event.key === '5') {
+        calculationDisplay.value = event.key;
+        appendNumber(event.key);
+    }
+
+    if (event.key === '6') {
+        calculationDisplay.value = event.key;
+        appendNumber(event.key);
+    }
+
+    if (event.key === '7') {
+        calculationDisplay.value = event.key;
+        appendNumber(event.key);
+    }
+
+    if (event.key === '8') {
+        calculationDisplay.value = event.key;
+        appendNumber(event.key);
+    }
+
+    if (event.key === '9') {
+        calculationDisplay.value = event.key;
+        appendNumber(event.key);
+    }
+
+    if (event.key === '.') {
+        calculationDisplay.value = event.key;
+        appendNumber(event.key);
+    }
+
+    if (event.key === '+') {
+        calculationDisplay.value = event.key;
+        setOperator(event.key);
+    }
+
+    if (event.key === '-') {
+        calculationDisplay.value = event.key;
+        setOperator(event.key);
+    }
+
+    if (event.key === '*') {
+        calculationDisplay.value = event.key;
+        setOperator(event.key);
+    }
+
+    if (event.key === '/') {
+        calculationDisplay.value = event.key;
+        setOperator(event.key);
+    }
+
+    if (event.key === '^') {
+        calculationDisplay.value = event.key;
+        setOperator(event.key);
+    }
+
+    if (event.key === '%') {
+        calculationDisplay.value = event.key;
+        calculatePercentage();
+    }
+
+    if (event.key === '!') {
+        calculationDisplay.value = event.key;
+        calculateFactorial();
+    }
+
+    if (event.key === 'Enter') {
+        calculateResult();
+    }
+});
+
+document.addEventListener('keydown', function(event) {
+    console.log(event);
+    if (event.key === 'Delete') {
+        clearResult();
+    }
+
+    if (event.key === 'Backspace') {
+        backspace();
+    }
+});
